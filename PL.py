@@ -6,6 +6,8 @@ import tensorflow as tf
 # from Tools.demo.sortvisu import steps
 from sklearn.metrics.scorer import accuracy_scorer
 
+# Test git function
+
 
 # data = test.load_the_data.read_data()
 # training_data, training_label, test_data, test_label = \
