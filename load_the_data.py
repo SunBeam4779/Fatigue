@@ -6,14 +6,13 @@ Created on 2018年12月26日
 import numpy as np
 import pandas as pd
 from builtins import len
-from h5py.tests.old import test_dataset
 import tensorflow as tf
-from tensorflow.contrib.layers.python.layers import target_column
 
 
 PATH = "G:\\CAD\\data_1.csv"
 TRAIN_DATA = "G:\\CAD\\train.csv"
 TEST_DATA = "G:\\CAD\\test.csv"
+
 
 def read_data(path=PATH):
     data = pd.read_csv(path, encoding='ANSI', delimiter=",")
@@ -71,6 +70,7 @@ def get_data_and_labels(data, test_ratio):
     return trdata, trlabel, tedata, telabel
     return trdata, tedata
 
+
 def load_data(train_path=TRAIN_DATA, test_path=TEST_DATA):
     training_set = tf.contrib.learn.datasets.base.load_csv_with_header(
         filename=train_path,
@@ -84,6 +84,13 @@ def load_data(train_path=TRAIN_DATA, test_path=TEST_DATA):
     return training_set, test_set
 
 
+def load_test_data(path):
+    data_set = tf.contrib.learn.datasets.base.load_csv_with_header(
+        filename=path,
+        target_dtype=np.int,
+        features_dtype=np.float32)
+    
+    return data_set
 
 
 

@@ -1,21 +1,38 @@
-# import test
-import test.load_the_data
-# import test.KNN
+import load_the_data
 import tensorflow as tf
-# from tensorflow._api.v1 import feature_column
-# from Tools.demo.sortvisu import steps
-from sklearn.metrics.scorer import accuracy_scorer
+import time
 
 
+DATA1 = "G:\\CAD\\pre_data1.csv"
+DATA2 = "G:\\CAD\\pre_data4.csv"
 
-# data = test.load_the_data.read_data()
-# training_data, training_label, test_data, test_label = \
-#     test.load_the_data.get_data_and_labels(data, 0.2)
-training_data, test_data = test.load_the_data.load_data()
+
+training_data, test_data = load_the_data.load_data()
+pre_data1 = load_the_data.load_test_data(DATA1)
+pre_data2 = load_the_data.load_test_data(DATA2)
 
 feature_columns = [tf.contrib.layers.real_valued_column("", dimension=28)]
-dnn_clf = tf.contrib.learn.DNNClassifier(hidden_units=[60, 50], n_classes=2, feature_columns=feature_columns)
-dnn_clf.fit(x=training_data.data, y=training_data.target, steps=100)
+dnn_clf = tf.contrib.learn.DNNClassifier(hidden_units=[60, 40], n_classes=2, feature_columns=feature_columns)
+st = time.clock()
+dnn_clf.fit(x=training_data.data, y=training_data.target, steps=1500)
+et = time.clock()
 score = dnn_clf.evaluate(x=test_data.data, y=test_data.target)["accuracy"]
-print("Accuracy is:{:.4f}".format(score))
+print("training time is about:{0:4f}s".format(et-st))
+print("Accuracy is:{0:f}".format(score))
 
+
+def judge(state):
+    if 0 in state:
+        print("Its state is not fatigued")
+    if 1 in state:
+        print("Its state is fatigued")
+    print("Prediction is:{0}".format(str(state)))
+
+
+y1 = list(dnn_clf.predict(pre_data1.data))
+y2 = list(dnn_clf.predict(pre_data2.data))
+# print("Prediction 1 is:{0}".format(str(y1)))
+# print("Prediction 2 is:{0}".format(str(y2)))
+
+judge(y1)
+judge(y2)
